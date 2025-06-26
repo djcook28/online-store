@@ -12,6 +12,7 @@ class Article:
     def buy(self):
         if df.loc[df["id"] == self.id, "in stock"].squeeze() > 0:
             df.loc[df["id"] == self.id, "in stock"] -= 1
+            df.to_csv("articles.csv", index=False)
             return True
         else:
             return False
