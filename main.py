@@ -11,7 +11,7 @@ class Article:
 
     def buy(self):
         if df.loc[df["id"] == self.id, "in stock"].squeeze() > 0:
-            df.loc[df["id"] == self.id, "in stock"] = df.loc[df["id"] == self.id, "in stock"].squeeze() - 1
+            df.loc[df["id"] == self.id, "in stock"] -= 1
             return True
         else:
             return False
@@ -31,11 +31,15 @@ class Receipt:
 
         self.pdf.output(f"Receipt {article.id}.pdf")
 
-print(df)
+while True:
+    print(df)
 
-selected_id = int(input("Enter the id number that you would like to purchase: "))
-article = Article(selected_id)
+    selected_id = int(input("Enter the id number that you would like to purchase: "))
+    article = Article(selected_id)
 
-if (article.buy()):
-    receipt = Receipt()
-    receipt.create_pdf(article)
+    if (article.buy()):
+        receipt = Receipt()
+        receipt.create_pdf(article)
+        break
+    else:
+        print("Product not available")
