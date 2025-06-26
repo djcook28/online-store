@@ -26,9 +26,9 @@ class Receipt:
         self.pdf.set_font(family="Times", style='B', size=12)
         self.pdf.set_text_color(0, 0, 0)
 
-        self.pdf.text(10, 20, txt=f"Receipt nr.{article.id}")
-        self.pdf.text(10, 25, txt=f"Item Description: {article.name}")
-        self.pdf.text(10, 30, txt=f"Price: {article.price}")
+        self.pdf.cell(30, 6, txt=f"Receipt nr.{article.id}", ln=1)
+        self.pdf.cell(30, 6, txt=f"Item Description: {article.name}", ln=1)
+        self.pdf.cell(30, 6, txt=f"Price: {article.price}", ln=1)
 
         self.pdf.output(f"Receipt {article.id}.pdf")
 
