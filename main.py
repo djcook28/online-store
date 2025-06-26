@@ -1,4 +1,5 @@
 import pandas as pd
+from fpdf import FPDF
 
 df = pd.read_csv("articles.csv")
 
@@ -15,14 +16,26 @@ class Article:
         else:
             return False
 
+class Receipt:
+    def __init__(self):
+        self.pdf = FPDF()
+
+    def create_pdf(self, article):
+        self.pdf.add_page()
+        self.pdf.set_font(family="Times", style='B', size=12)
+        self.pdf.set_text_color(0, 0, 0)
+
+        self.pdf.text(10, 20, txt=f"Receipt nr.{article.id}")
+        self.pdf.text(10, 25, txt=f"Item Description: {article.name}")
+        self.pdf.text(10, 30, txt=f"Price: {article.price}")
+
+        self.pdf.output(f"Receipt {article.id}.pdf")
+
 print(df)
 
 selected_id = int(input("Enter the id number that you would like to purchase: "))
 article = Article(selected_id)
 
-print(article.id)
-print(article.name)
-print(article.price)
-
-article.buy()
-print(df)
+if (article.buy()):
+    receipt = Receipt()
+    receipt.create_pdf(article)
